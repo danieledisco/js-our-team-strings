@@ -29,34 +29,75 @@ const team =
 
 const teamContainerEl = document.getElementById('team');
 
-for ( let i = 0;  i< team.length; i++)
+generateTeamCards(team, teamContainerEl);
+
+
+/**
+ * Codice relativo al form
+ */
+document.getElementById('add-member').addEventListener('submit', function(e)
 {
-    const member = team[i];
+    e.preventDefault();
 
-    // generate the Markup
-    // add div
-    const memberEl = document.createElement('div');
-    
-    // add class
-    memberEl.classList.add('col-4');
+    // Reed the value in the input text box
+    const newMember = document.getElementById('member').value;
 
-    // inser member
-    memberEl.append(member);
-
-    // add click event for every element
-    memberEl.addEventListener('click', function(e)
-    {
-        console.log(e.target, this);
-//        this.classList.add('bg-primary');
-//        this.classList.add('text-white');
-        // Se voglio mettere in evidenza e poi ricliccando
-        // rimettere a posto uso toggle
-        this.classList.toggle('bg-primary');
-        this.classList.toggle('text-white');        
-    }
-    );
+    const memberEl = generateMemberCard(newMember);
 
     teamContainerEl.appendChild(memberEl);
+    document.getElementById('member').value = "";
+});
 
 
+/**
+ * List of functions:
+ * 
+ * function generateMemberCard(member)
+ * function generateTeamCards(list,domNode)
+ */
+
+
+
+
+/**
+ * generateMemberCard
+ * This function generate a dom element
+ * ehit eventListner for click
+ * @param {string} member  The member name
+ * @returns Object
+ */
+function generateMemberCard(member)
+{
+    // add div
+    const memberEl = document.createElement('div');
+
+    // add to the div the calss coll-4
+    memberEl.classList.add('col-4');
+
+    // Insert the name of the member
+    memberEl.append(member);
+
+    // Add event lister on the click
+    memberEl.addEventListener('click', function(e)
+    {
+        this.classList.toggle('bg-primary');
+        this.classList.toggle('text-white');
+    });
+
+    return memberEl;
+}
+
+/**
+ * generateTeamCard
+ * @param {array} list  the list of the team name
+ * @param {*} domNode   the dom element where append the list
+ */
+function generateTeamCards(list,domNode)
+{
+    for ( let i = 0; i < list.length; i++)
+    {
+        const member = list[i];
+        const memberEl = generateMemberCard(member);
+        domNode.appendChild(memberEl);        
+    }
 }
